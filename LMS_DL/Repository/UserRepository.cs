@@ -54,17 +54,22 @@ namespace LMS_DL.Repository
                     {
                         loginUserRS = new LoginUserModel.LoginUserRS()
                         {
-                            message = Convert.ToString(Objtable.Rows[0]?["message"]),
-                            status = Convert.ToBoolean(Objtable.Rows[0]?["status"]),
-                            vendor_full_name = Convert.ToString(Objtable.Rows[0]?["vendor_full_name"]),
+                            message = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["message"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["message"]),
+                            status = Objtable.Rows[0]["status"] == DBNull.Value ? false : Convert.ToBoolean(Objtable.Rows[0]["status"]),
+                            vendor_full_name = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["vendor_full_name"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["vendor_full_name"]),
+                            vendor_code = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["vendor_code"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["vendor_code"]),
+                            token = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["token"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["token"]),
+                            vendor_company_name = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["vendor_company_name"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["vendor_company_name"]),
+                            ip_address = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["ip_address"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["ip_address"]),
+                            is_active = Objtable.Rows[0]["is_active"] == DBNull.Value ? false : Convert.ToBoolean(Objtable.Rows[0]["is_active"]),
                         };
                     }
                     else
                     {
                         loginUserRS = new LoginUserModel.LoginUserRS()
                         {
-                            message = Convert.ToString(Objtable.Rows[0]?["message"]),
-                            status = Convert.ToBoolean(Objtable.Rows[0]?["status"]),
+                            message = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["message"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["message"]),
+                            status = Objtable.Rows[0]["status"] == DBNull.Value ? false : Convert.ToBoolean(Objtable.Rows[0]["status"]),
                         };
                     }
                 }

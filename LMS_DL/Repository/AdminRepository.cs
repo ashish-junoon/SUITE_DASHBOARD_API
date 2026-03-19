@@ -23,7 +23,7 @@ namespace LMS_DL.Repository
         public ServiceTypeModel.ServiceTypeRS AddUpdateSeriveType(ServiceTypeModel.ServiceTypeRQ request, string dbconnection)
         {
             ServiceTypeRS serviceTypeRS = new ServiceTypeRS();
-            SqlParameter[] param = new SqlParameter[7];
+            SqlParameter[] param = new SqlParameter[5];
             try
             {
 
@@ -67,7 +67,7 @@ namespace LMS_DL.Repository
                         {
                             message = Obj_table.Rows[0]["message"] != DBNull.Value ? Convert.ToString(Obj_table.Rows[0]["message"]) : string.Empty,
                             status = Obj_table.Rows[0]["status"] != DBNull.Value && !string.IsNullOrEmpty(Convert.ToString(Obj_table.Rows[0]["status"])) ? Convert.ToBoolean(Obj_table.Rows[0]["status"]) : false,
-                            Id = Convert.ToInt32(Obj_table.Rows[0]["id"])
+                            service_type_id = Obj_table.Rows[0].Field<int?>("service_type_id") ?? 0,
                         };
                     }
                     else
@@ -76,7 +76,7 @@ namespace LMS_DL.Repository
                         {
                             message = "Something went wrong !",
                             status = false,
-                            Id = 0
+                            service_type_id = 0
                         };
                     }
                 }
@@ -354,28 +354,34 @@ namespace LMS_DL.Repository
                         {
                             GetVendorList getVendorList = new GetVendorList
                             {
-                                id = Convert.ToInt32(row["Id"]),
-                                vendorname = row["vendorname"] as string ?? string.Empty,
-                                vendorcode = row["vendorcode"] as string ?? string.Empty,
-                                companyname = row["companyname"] as string ?? string.Empty,
-                                isactive = row["isactive"] != DBNull.Value ? Convert.ToBoolean(row["isactive"]) : (bool?)null,
-                                vendorfirstname = row["vendorfirstname"] as string ?? string.Empty,
-                                vendorlastname = row["vendorlastname"] as string ?? string.Empty,
-                                vendoremail = row["vendoremail"] as string ?? string.Empty,
-                                username = row["username"] as string ?? string.Empty,
-                                gender = row["gender"] as string ?? string.Empty,
+                                id = Convert.ToInt32(row["id"]),
+                                vendor_type = row["vendor_type"] as string ?? string.Empty,
+                                billing_type = row["billing_type"] as string ?? string.Empty,
+                                vendor_full_name = row["vendor_full_name"] as string ?? string.Empty,
+                                vendor_email = row["vendor_email"] as string ?? string.Empty,
+                                vendor_company_name = row["vendor_company_name"] as string ?? string.Empty,
+                                vendor_code = row["vendor_code"] as string ?? string.Empty,
+                                password = row["password"] as string ?? string.Empty,
+                                user_name = row["user_name"] as string ?? string.Empty,
+                                token = row["token"] as string ?? string.Empty,
+                                pan_number = row["pan_number"] as string ?? string.Empty,
                                 mobile = row["mobile"] as string ?? string.Empty,
-                                officelandline = row["officelandline"] as string ?? string.Empty,
-                                address = row["address"] as string ?? string.Empty,
+                                office_land_line = row["office_land_line"] as string ?? string.Empty,
+                                address_line = row["address_line"] as string ?? string.Empty,
                                 city = row["city"] as string ?? string.Empty,
                                 state = row["state"] as string ?? string.Empty,
-                                zipcode = row["zipcode"] as string ?? string.Empty,
-                                officeaddress = row["officeaddress"] as string ?? string.Empty,
-                                officecity = row["officecity"] as string ?? string.Empty,
-                                officestate = row["officestate"] as string ?? string.Empty,
-                                officezipcode = row["officezipcode"] as string ?? string.Empty,
-                                pannumber = row["PanNumber"] as string ?? string.Empty,
-                                vendortype = row["VendorType"] as string ?? string.Empty,
+                                zip_code = row["zip_code"] as string ?? string.Empty,
+                                office_address_line = row["office_address_line"] as string ?? string.Empty,
+                                office_city = row["office_city"] as string ?? string.Empty,
+                                office_state = row["office_state"] as string ?? string.Empty,
+                                office_zip_code = row["office_zip_code"] as string ?? string.Empty,
+                                ip_address = row["ip_address"] as string ?? string.Empty,
+                                created_date = row["created_date"] != DBNull.Value ? Convert.ToDateTime(row["created_date"]) : (DateTime?)null,
+                                created_by = row["created_by"] as string ?? string.Empty,
+                                updated_date = row["updated_date"] != DBNull.Value ? Convert.ToDateTime(row["updated_date"]) : (DateTime?)null,
+                                updated_by = row["updated_by"] as string ?? string.Empty,
+                                is_active = row["is_active"] != DBNull.Value ? Convert.ToBoolean(row["is_active"]) : (bool?)null
+
                             };
                             data.Add(getVendorList);
                         }

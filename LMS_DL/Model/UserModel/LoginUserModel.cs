@@ -28,10 +28,26 @@ namespace LMS_DL.Model.UserModel
             [JsonPropertyName("status")]
             public bool status { get; set; }
             [JsonPropertyName("message")]
-            public string message { get; set; }
+            public string? message { get; set; }
 
             [JsonPropertyName("vendor_full_name")]
-            public string vendor_full_name { get; set; }
+            public string? vendor_full_name { get; set; }
+
+            [JsonPropertyName("vendor_code")]
+            public string? vendor_code { get; set; }
+
+            [JsonPropertyName("token")]
+            public string? token { get; set; }
+
+            [JsonPropertyName("vendor_company_name")]
+            public string? vendor_company_name { get; set; }
+
+            [JsonPropertyName("ip_address")]
+            public string? ip_address { get; set; }
+
+            [JsonPropertyName("is_active")]
+            public bool? is_active { get; set; }
+
         }
     }
 }

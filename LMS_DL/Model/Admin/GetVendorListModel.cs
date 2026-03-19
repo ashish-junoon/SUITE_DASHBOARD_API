@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,71 +24,87 @@ namespace LMS_DL.Model.Admin
         }
         public class GetVendorList
         {
-            [JsonPropertyName("id")]
-            public int? id { get; set; }
+            [JsonProperty("id")]
+            public int id { get; set; }
 
-            [JsonPropertyName("vendorname")]
-            public string? vendorname { get; set; }
+            [JsonProperty("vendor_type")]
+            public string vendor_type { get; set; } = string.Empty;
 
-            [JsonPropertyName("vendorcode")]
-            public string? vendorcode { get; set; }
+            [JsonProperty("billing_type")]
+            public string billing_type { get; set; } = string.Empty;
 
-            [JsonPropertyName("companyname")]
-            public string? companyname { get; set; }
+            [JsonProperty("vendor_full_name")]
+            public string vendor_full_name { get; set; } = string.Empty;
 
-            [JsonPropertyName("isactive")]
-            public bool? isactive { get; set; }
+            [JsonProperty("vendor_email")]
+            public string vendor_email { get; set; } = string.Empty;
 
-            [JsonPropertyName("vendorfirstname")]
-            public string? vendorfirstname { get; set; }
+            [JsonProperty("vendor_company_name")]
+            public string vendor_company_name { get; set; } = string.Empty;
 
-            [JsonPropertyName("vendorlastname")]
-            public string? vendorlastname { get; set; }
+            [JsonProperty("vendor_code")]
+            public string vendor_code { get; set; } = string.Empty;
 
-            [JsonPropertyName("vendoremail")]
-            public string? vendoremail { get; set; }
+            [JsonProperty("password")]
+            public string password { get; set; } = string.Empty;
 
-            [JsonPropertyName("username")]
-            public string? username { get; set; }
+            [JsonProperty("user_name")]
+            public string user_name { get; set; } = string.Empty;
 
-            [JsonPropertyName("gender")]
-            public string? gender { get; set; }
+            [JsonProperty("token")]
+            public string token { get; set; } = string.Empty;
 
-            [JsonPropertyName("mobile")]
-            public string? mobile { get; set; }
+            [JsonProperty("pan_number")]
+            public string pan_number { get; set; } = string.Empty;
 
-            [JsonPropertyName("officelandline")]
-            public string? officelandline { get; set; }
+            [JsonProperty("mobile")]
+            public string mobile { get; set; } = string.Empty;
 
-            [JsonPropertyName("address")]
-            public string? address { get; set; }
+            [JsonProperty("office_land_line")]
+            public string office_land_line { get; set; } = string.Empty;
 
-            [JsonPropertyName("city")]
-            public string? city { get; set; }
+            [JsonProperty("address_line")]
+            public string address_line { get; set; } = string.Empty;
 
-            [JsonPropertyName("state")]
-            public string? state { get; set; }
+            [JsonProperty("city")]
+            public string city { get; set; } = string.Empty;
 
-            [JsonPropertyName("zipcode")]
-            public string? zipcode { get; set; }
+            [JsonProperty("state")]
+            public string state { get; set; } = string.Empty;
 
-            [JsonPropertyName("officeaddress")]
-            public string? officeaddress { get; set; }
+            [JsonProperty("zip_code")]
+            public string zip_code { get; set; } = string.Empty;
 
-            [JsonPropertyName("officecity")]
-            public string? officecity { get; set; }
+            [JsonProperty("office_address_line")]
+            public string office_address_line { get; set; } = string.Empty;
 
-            [JsonPropertyName("officestate")]
-            public string? officestate { get; set; }
+            [JsonProperty("office_city")]
+            public string office_city { get; set; } = string.Empty;
 
-            [JsonPropertyName("officezipcode")]
-            public string? officezipcode { get; set; }
+            [JsonProperty("office_state")]
+            public string office_state { get; set; } = string.Empty;
 
-            [JsonPropertyName("pannumber")]
-            public string? pannumber { get; set; }
+            [JsonProperty("office_zip_code")]
+            public string office_zip_code { get; set; } = string.Empty;
 
-            [JsonPropertyName("vendortype")]
-            public string? vendortype { get; set; }
+            [JsonProperty("ip_address")]
+            public string ip_address { get; set; } = string.Empty;
+
+            [JsonProperty("created_date")]
+            public DateTime? created_date { get; set; }
+
+            [JsonProperty("created_by")]
+            public string created_by { get; set; } = string.Empty;
+
+            [JsonProperty("updated_date")]
+            public DateTime? updated_date { get; set; }
+
+            [JsonProperty("updated_by")]
+            public string updated_by { get; set; } = string.Empty;
+
+            [JsonProperty("is_active")]
+            public bool? is_active { get; set; }
+
         }
     }
 }

@@ -36,8 +36,8 @@ namespace LMS_DL.Model.Admin
             [JsonPropertyName("message")]
             public string? message { get; set; }
 
-            [JsonPropertyName("id")]
-            public int? Id { get; set; }
+            [JsonPropertyName("service_type_id")]
+            public int? service_type_id { get; set; }
         }
 
         public class GetServiceTypeRS

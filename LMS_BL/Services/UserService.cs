@@ -43,14 +43,11 @@ namespace LMS_BL.Services
         {
             registerUserDbLayer = new();
             return registerUserDbLayer.LoginUser(loginUserRQ, _appsetting.Value.ConnectionStrings.dbconnection);
-
         }
         public UpdateStatusModel.UpdateStatusRS UpdateStatus(UpdateStatusModel.UpdateStatusRQ request)
         {
             registerUserDbLayer = new();
             return registerUserDbLayer.UpdateStatus(request, _appsetting.Value.ConnectionStrings.dbconnection);
         }
-
-
     }
 }

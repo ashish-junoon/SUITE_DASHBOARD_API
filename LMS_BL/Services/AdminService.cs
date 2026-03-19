@@ -38,23 +38,15 @@ namespace LMS_BL.Services
             adminDbLayer = new(_logger);
             return adminDbLayer.GetVendorList(_appsetting.Value.ConnectionStrings.dbconnection);
         }
-        public GetVendorAmountModel.GetVendorAmountRS GetVendorAmount(string requiredcompanyid)
-        {
-            adminDbLayer = new(_logger);
-            return adminDbLayer.GetVendorAmount(requiredcompanyid, _appsetting.Value.ConnectionStrings.dbconnection);
-        }
-
         public VendorServiceNameModel.VendorServiceNameRS VendorServiceName(VendorServiceNameModel.VendorServiceNameRQ request)
         {
             adminDbLayer = new(_logger);
             return adminDbLayer.VendorServiceName(request, _appsetting.Value.ConnectionStrings.dbconnection);
         }
-
         public VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request , string requiredcompanyid)
         {
             adminDbLayer = new(_logger);
             return adminDbLayer.VendorDashboard(request, requiredcompanyid , _appsetting.Value.ConnectionStrings.dbconnection);
         }
-
     }
 }
