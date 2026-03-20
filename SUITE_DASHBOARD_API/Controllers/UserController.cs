@@ -50,8 +50,19 @@ namespace API_SERVICES.Controllers
             return Ok(_result);
         }
 
+        //[HttpPost]
+        //public IActionResult AssignService(AssignServiceModel.AssignServiceRQ request)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    var _result = _user.AssignService(request);
+        //    return Ok(_result);
+        //}
+
         [HttpPost]
-        public IActionResult AssignService(AssignServiceModel.AssignServiceRQ request)
+        public IActionResult AssignService(AssignServiceModel_V1.AssignServiceRQ request)
         {
             if (!ModelState.IsValid)
             {

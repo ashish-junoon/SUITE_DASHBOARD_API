@@ -1,7 +1,8 @@
 ﻿using LMS_DL.Model.UserModel;
-using System.Data;
 //using System.Data.SqlClient;
 using Microsoft.Data.SqlClient;
+using System.Data;
+using System.Security;
 using static LMS_DL.Model.UserModel.AssignServiceModel;
 using static LMS_DL.Model.UserModel.GetVendorCodeModel;
 using static LMS_DL.Model.UserModel.LoginUserModel;
@@ -16,7 +17,7 @@ namespace LMS_DL.Repository
     {
         DataSet Objds = null;
         DataTable Objtable = new DataTable();
-      
+
         public LoginUserModel.LoginUserRS LoginUser(LoginUserModel.LoginUserRQ loginUserRQ, string dbconnection)
         {
             LoginUserModel.LoginUserRS loginUserRS = new();
@@ -172,89 +173,166 @@ namespace LMS_DL.Repository
             return vendorRS;
         }
 
-  
-        public AssignServiceModel.AssignServiceRS AssignService(AssignServiceModel.AssignServiceRQ request, string dbconnection)
+
+        //public AssignServiceModel.AssignServiceRS AssignService(AssignServiceModel.AssignServiceRQ request, string dbconnection)
+        //{
+        //    AssignServiceModel.AssignServiceRS assignServiceRS = new();
+        //    SqlParameter[] param = new SqlParameter[7];
+        //    try
+        //    {
+        //        param[0] = new SqlParameter("vendor_code", SqlDbType.VarChar, 5);
+        //        param[0].Value = request.vendor_code;
+
+        //        param[1] = new SqlParameter("service_name_id", SqlDbType.Int);
+        //        param[1].Value = request.service_name_id;
+
+        //        param[2] = new SqlParameter("service_amount", SqlDbType.Decimal);
+        //        param[2].Value = request.service_amount;
+
+        //        param[3] = new SqlParameter("is_active", SqlDbType.Bit);
+        //        param[3].Value = request.is_active;
+
+        //        param[4] = new SqlParameter("created_by", SqlDbType.VarChar, 30);
+        //        param[4].Value = request.created_by;
+
+        //        param[5] = new SqlParameter("service_type_id", SqlDbType.Int);
+        //        param[5].Value = request.service_type_id;
+
+        //        param[6] = new SqlParameter("assigned_service_id", SqlDbType.Int);
+        //        param[6].Value = request.assigned_service_id;
+
+        //        using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+        //        {
+        //            Objds = new DataSet();
+        //            try
+        //            {
+        //                Objds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "USP_AssignService", param);
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                return new AssignServiceModel.AssignServiceRS()
+        //                {
+        //                    message = ex.Message,
+        //                    status = false,
+        //                };
+        //            }
+        //        }
+        //        if (Objds?.Tables?.Count > 0)
+        //        {
+        //            Objtable = Objds.Tables[0];
+
+        //            if (Convert.ToBoolean(Objtable.Rows[0]?["status"]))
+        //            {
+        //                assignServiceRS = new AssignServiceModel.AssignServiceRS()
+        //                {
+        //                    message = Objtable.Rows[0]?["message"]?.ToString()?.Trim() ?? string.Empty,
+        //                    status = Objtable.Rows[0]?["status"] != DBNull.Value && Convert.ToBoolean(Objtable.Rows[0]["status"]),
+        //                    assigned_service_id = Convert.ToInt32(Objtable.Rows[0]?["assigned_service_id"])
+        //                };
+        //            }
+        //            else
+        //            {
+        //                assignServiceRS = new AssignServiceModel.AssignServiceRS()
+        //                {
+        //                    message = Objtable.Rows[0]?["message"]?.ToString()?.Trim() ?? string.Empty,
+        //                    status = Objtable.Rows[0]?["status"] != DBNull.Value && Convert.ToBoolean(Objtable.Rows[0]["status"]),
+        //                };
+        //            }
+        //        }
+        //        else
+        //        {
+        //            assignServiceRS = new AssignServiceModel.AssignServiceRS()
+        //            {
+        //                message = "Invalid Request",
+        //                status = false,
+        //            };
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new AssignServiceRS()
+        //        {
+        //            message = ex.Message,
+        //            status = false,
+        //        };
+        //    }
+        //    return assignServiceRS;
+        //}
+
+        public AssignServiceModel_V1.AssignServiceRS AssignService(AssignServiceModel_V1.AssignServiceRQ request, string dbconnection)
         {
-            AssignServiceModel.AssignServiceRS assignServiceRS = new();
-            SqlParameter[] param = new SqlParameter[7];
+            DataSet Obj_ds = new DataSet();
+            int total = 0;
+            AssignServiceModel_V1.AssignServiceRS assignServiceRS = new();
+            SqlParameter[] param = new SqlParameter[4];
+
+            param[0] = new SqlParameter("vendor_code", SqlDbType.VarChar, 50);
+            param[0].Value = request.servicesArray?[0].vendor_code;
+
+            param[1] = new SqlParameter("Action", SqlDbType.VarChar, 20);
+            param[1].Value = "DELETE";
+
             try
             {
-                param[0] = new SqlParameter("vendor_code", SqlDbType.VarChar, 5);
-                param[0].Value = request.vendor_code;
+                DataTable dt = new DataTable();
+                dt.Columns.Add("vendor_code", typeof(string));
+                dt.Columns.Add("service_amount", typeof(decimal));
+                dt.Columns.Add("is_active", typeof(bool));
+                dt.Columns.Add("created_by", typeof(string));
+                //dt.Columns.Add("created_date", typeof(DateTime));
+                dt.Columns.Add("service_type_id", typeof(int));
+                dt.Columns.Add("service_name_id", typeof(int));
 
-                param[1] = new SqlParameter("service_name_id", SqlDbType.Int);
-                param[1].Value = request.service_name_id;
-
-                param[2] = new SqlParameter("service_amount", SqlDbType.Decimal);
-                param[2].Value = request.service_amount;
-
-                param[3] = new SqlParameter("is_active", SqlDbType.Bit);
-                param[3].Value = request.is_active;
-
-                param[4] = new SqlParameter("created_by", SqlDbType.VarChar, 30);
-                param[4].Value = request.created_by;
-
-                param[5] = new SqlParameter("service_type_id", SqlDbType.Int);
-                param[5].Value = request.service_type_id;
-
-                param[6] = new SqlParameter("assigned_service_id", SqlDbType.Int);
-                param[6].Value = request.assigned_service_id;
-
-                using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+                foreach (var item in request.servicesArray ?? [])
                 {
-                    Objds = new DataSet();
-                    try
+                    if (item.is_active)
                     {
-                        Objds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "USP_AssignService", param);
-                    }
-                    catch (Exception ex)
-                    {
-                        return new AssignServiceModel.AssignServiceRS()
-                        {
-                            message = ex.Message,
-                            status = false,
-                        };
+                        dt.Rows.Add
+                        (
+                            item.vendor_code,
+                            item.service_amount,
+                            item.is_active,
+                            item.created_by,
+                            item.service_type_id,
+                            item.service_name_id
+                        );
                     }
                 }
-                if (Objds?.Tables?.Count > 0)
+                using (SqlConnection con = new SqlConnection(dbconnection))
                 {
-                    Objtable = Objds.Tables[0];
-
-                    if (Convert.ToBoolean(Objtable.Rows[0]?["status"]))
+                    if (dt != null)
                     {
-                        assignServiceRS = new AssignServiceModel.AssignServiceRS()
-                        {
-                            message = Objtable.Rows[0]?["message"]?.ToString()?.Trim() ?? string.Empty,
-                            status = Objtable.Rows[0]?["status"] != DBNull.Value && Convert.ToBoolean(Objtable.Rows[0]["status"]),
-                            assigned_service_id = Convert.ToInt32(Objtable.Rows[0]?["assigned_service_id"])
-                        };
+                        Obj_ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "USP_AssignService_V1", param);
                     }
-                    else
+                    using (SqlCommand cmd = new SqlCommand("USP_AssignService_V1"))
                     {
-                        assignServiceRS = new AssignServiceModel.AssignServiceRS()
-                        {
-                            message = Objtable.Rows[0]?["message"]?.ToString()?.Trim() ?? string.Empty,
-                            status = Objtable.Rows[0]?["status"] != DBNull.Value && Convert.ToBoolean(Objtable.Rows[0]["status"]),
-                        };
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("@tbl_Type", dt);
+                        con.Open();
+                        total = cmd.ExecuteNonQuery();
+                        con.Close();
                     }
                 }
-                else
+                if (total > 0)
                 {
-                    assignServiceRS = new AssignServiceModel.AssignServiceRS()
+                    return new AssignServiceModel_V1.AssignServiceRS()
                     {
-                        message = "Invalid Request",
-                        status = false,
+                        message = "Success",
+                        status = true
                     };
                 }
             }
             catch (Exception ex)
             {
-                return new AssignServiceRS()
+                //_logger.LogError("Error in SetPermission" + ex.Message);
+                return new AssignServiceModel_V1.AssignServiceRS()
                 {
                     message = ex.Message,
-                    status = false,
+                    status = false
                 };
             }
+
             return assignServiceRS;
         }
 

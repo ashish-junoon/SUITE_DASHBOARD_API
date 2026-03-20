@@ -76,9 +76,9 @@ namespace API_SERVICES.Controllers
         }
 
         [HttpPost]
-        public IActionResult VendorDashboard(VendorDashboardModel.VendorDashboardRQ request)
+        public IActionResult VendorDashboard(VendorDashboardModel.VendorDashboardRQ request, string companyid)
         {
-            var _result = _admin.VendorDashboard(request);
+            var _result = _admin.VendorDashboard(request, companyid);
             return Ok(_result);
         }
     }

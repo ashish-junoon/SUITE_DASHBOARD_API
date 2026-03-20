@@ -17,7 +17,7 @@ namespace LMS_BL.Interface
         ServiceNameModel.GetServiceNameRS GetServiceName();
         GetVendorListModel.GetVendorListRS GetVendorList();
         VendorServiceNameModel.VendorServiceNameRS VendorServiceName(VendorServiceNameModel.VendorServiceNameRQ request);
-        VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request);
+        VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request, string requiredcompanyid);
 
     }
 }

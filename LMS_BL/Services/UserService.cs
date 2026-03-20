@@ -27,7 +27,13 @@ namespace LMS_BL.Services
             return registerUserDbLayer.VendorRegister(loginUserRQ, _appsetting.Value.ConnectionStrings.dbconnection);
 
         }
-        public AssignServiceModel.AssignServiceRS AssignService(AssignServiceModel.AssignServiceRQ request)
+
+        //public AssignServiceModel.AssignServiceRS AssignService(AssignServiceModel.AssignServiceRQ request)
+        //{
+        //    registerUserDbLayer = new();
+        //    return registerUserDbLayer.AssignService(request, _appsetting.Value.ConnectionStrings.dbconnection);
+        //}
+        public AssignServiceModel_V1.AssignServiceRS AssignService(AssignServiceModel_V1.AssignServiceRQ request)
         {
             registerUserDbLayer = new();
             return registerUserDbLayer.AssignService(request, _appsetting.Value.ConnectionStrings.dbconnection);
