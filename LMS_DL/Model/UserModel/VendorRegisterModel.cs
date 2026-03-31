@@ -85,6 +85,9 @@ namespace LMS_DL.Model.UserModel
 
             [JsonProperty("id")]
             public int? id { get; set; }
+            
+            [JsonProperty("vendor_code")]
+            public string? vendor_code { get; set; }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace LMS_DL.Repository
                 }
                 if (Objds?.Tables?.Count > 0)
                 {
-                    Objtable = Objds?.Tables[0];
+                    Objtable = Objds.Tables[0];
 
                     if (Convert.ToBoolean(Objtable.Rows[0]?["status"]))
                     {
@@ -149,6 +149,7 @@ namespace LMS_DL.Repository
                             message = row["Message"] != DBNull.Value ? Convert.ToString(row["Message"]) : string.Empty,
                             status = row["Status"] != DBNull.Value && Convert.ToBoolean(row["Status"]),
                             id = Convert.ToInt32(row["Id"]),
+                            vendor_code = row["vendor_code"] != DBNull.Value ? Convert.ToString(row["vendor_code"]) : string.Empty,
                         };
                     }
                     else
@@ -285,18 +286,15 @@ namespace LMS_DL.Repository
 
                 foreach (var item in request.servicesArray ?? [])
                 {
-                    if (item.is_active)
-                    {
-                        dt.Rows.Add
-                        (
-                            item.vendor_code,
-                            item.service_amount,
-                            item.is_active,
-                            item.created_by,
-                            item.service_type_id,
-                            item.service_name_id
-                        );
-                    }
+                    dt.Rows.Add
+                       (
+                           item.vendor_code,
+                           item.service_amount,
+                           item.is_active,
+                           item.created_by,
+                           item.service_type_id,
+                           item.service_name_id
+                       );
                 }
                 using (SqlConnection con = new SqlConnection(dbconnection))
                 {
