@@ -124,7 +124,7 @@ app.UseCors(MyAllowSpecificOrigine);
 //}
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseMiddleware<IPWhitelistMiddleware>();
+//app.UseMiddleware<IPWhitelistMiddleware>();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
