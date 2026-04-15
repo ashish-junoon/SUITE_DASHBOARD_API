@@ -10,43 +10,43 @@ namespace LMS_BL.Services
     {
         private readonly IOptions<AppSettingModel> _appsetting = _app ?? throw new ArgumentNullException(nameof(_app));
         private readonly ILoggerManager _logger = _log ?? throw new ArgumentNullException(nameof(_log));
-        AdminRepository adminDbLayer;
+        AdminRepository? adminDbLayer;
         public ServiceTypeModel.ServiceTypeRS AddUpdateSeriveType(ServiceTypeModel.ServiceTypeRQ request)
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.AddUpdateSeriveType(request ,_appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.AddUpdateSeriveType(request, _appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
         public ServiceTypeModel.GetServiceTypeRS GetServiceType()
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.GetServiceType(_appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.GetServiceType(_appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
         public ServiceNameModel.ServiceNameRS AddUpdateServiceName(ServiceNameModel.ServiceNameRQ request)
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.AddUpdateServiceName(request, _appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.AddUpdateServiceName(request, _appsetting.Value.ConnectionStrings?.dbconnection ?? "" ?? "");
         }
 
         public ServiceNameModel.GetServiceNameRS GetServiceName()
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.GetServiceName(_appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.GetServiceName(_appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
 
         public GetVendorListModel.GetVendorListRS GetVendorList()
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.GetVendorList(_appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.GetVendorList(_appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
         public VendorServiceNameModel.VendorServiceNameRS VendorServiceName(VendorServiceNameModel.VendorServiceNameRQ request)
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.VendorServiceName(request, _appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.VendorServiceName(request, _appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
-        public VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request , string requiredcompanyid)
+        public VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request, string requiredcompanyid)
         {
             adminDbLayer = new(_logger);
-            return adminDbLayer.VendorDashboard(request, requiredcompanyid , _appsetting.Value.ConnectionStrings.dbconnection);
+            return adminDbLayer.VendorDashboard(request, requiredcompanyid, _appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
     }
 }
