@@ -550,7 +550,7 @@ namespace LMS_DL.Repository
             }
             return getServiceNameRS;
         }
-        public VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request,string requiredcompanyid,string dbconnection)
+        public VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request, string requiredcompanyid, string dbconnection)
         {
             VendorDashboardRS vendorDashboardRS = new VendorDashboardRS();
             SqlParameter[] param = new SqlParameter[3];
@@ -622,7 +622,7 @@ namespace LMS_DL.Repository
         private List<VendorDashboard> SafeMapTable(DataSet ds, int index)
         {
             if (ds == null || ds.Tables == null || ds.Tables.Count <= index || ds.Tables[index] == null)
-            return new List<VendorDashboard>();
+                return new List<VendorDashboard>();
             return MapTableToDashboard(ds.Tables[index]);
         }
         private List<VendorDashboard> MapTableToDashboard(DataTable table)
@@ -642,6 +642,68 @@ namespace LMS_DL.Repository
 
             return dashboardList;
         }
+        public VendorServiceHistoryModel.VendorServiceHistoryRS VendorServiceHistory(VendorServiceHistoryModel.VendorServiceHistoryRQ request, string dbconnection)
+        {
+            VendorServiceHistoryModel.VendorServiceHistoryRS serviceHistoryRS = new VendorServiceHistoryModel.VendorServiceHistoryRS();
+            SqlParameter[] param = new SqlParameter[3];
+            try
+            {
+                param[0] = new SqlParameter("from_date", SqlDbType.VarChar, 20) { Value = request.from_date };
+                param[1] = new SqlParameter("to_date", SqlDbType.VarChar, 20) { Value = request.to_date };
+                param[2] = new SqlParameter("vendor_code", SqlDbType.VarChar, 20) { Value = request.vendor_code };
 
+                using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+                {
+                    Obj_ds = new DataSet();
+                    try
+                    {
+                        Obj_ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "USP_Vendor_Service_History", param);
+                        if (Obj_ds.Tables.Count > 0 && Obj_ds.Tables[0].Rows.Count > 0)
+                        {
+                            serviceHistoryRS.serviceHistories = new List<VendorServiceHistoryModel.ServiceHistory>();
+                            serviceHistoryRS.status = true;
+                            serviceHistoryRS.message = "Success";
+                            serviceHistoryRS.vendor_code = request.vendor_code;
+                            foreach (DataRow row in Obj_ds.Tables[0].Rows)
+                            {
+                                serviceHistoryRS.serviceHistories.Add(new VendorServiceHistoryModel.ServiceHistory
+                                {
+                                    service_name = row["service_name"] as string ?? string.Empty,
+                                    description = row["description"] as string ?? string.Empty,
+                                    success_count = row["success_count"] == DBNull.Value ? 0 : Convert.ToInt32(row["success_count"]),
+                                    failed_count = row["failed_count"] == DBNull.Value ? 0 : Convert.ToInt32(row["failed_count"]),
+                                    service_amount = row["service_amount"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["service_amount"]),
+                                    service_assign_amt = row["service_assign_amt"] == DBNull.Value ? 0.0 : Convert.ToDouble(row["service_assign_amt"]),
+                                });
+                            }
+                        }
+                        else
+                        {
+                            serviceHistoryRS.status = false;
+                            serviceHistoryRS.message = "No record found.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return new VendorServiceHistoryModel.VendorServiceHistoryRS
+                        {
+                            message = ex.Message,
+                            status = false
+                        };
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new VendorServiceHistoryModel.VendorServiceHistoryRS
+                {
+                    message = ex.Message,
+                    status = false
+                };
+            }
+
+            return serviceHistoryRS;
+        }
     }
 }

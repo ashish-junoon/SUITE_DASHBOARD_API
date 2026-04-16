@@ -48,5 +48,10 @@ namespace LMS_BL.Services
             adminDbLayer = new(_logger);
             return adminDbLayer.VendorDashboard(request, requiredcompanyid, _appsetting.Value.ConnectionStrings?.dbconnection ?? "");
         }
+        public VendorServiceHistoryModel.VendorServiceHistoryRS VendorServiceHistory(VendorServiceHistoryModel.VendorServiceHistoryRQ request)
+        {
+            adminDbLayer = new(_logger);
+            return adminDbLayer.VendorServiceHistory(request, _appsetting.Value.ConnectionStrings?.dbconnection ?? "");
+        }
     }
 }

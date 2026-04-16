@@ -81,5 +81,12 @@ namespace API_SERVICES.Controllers
             var _result = _admin.VendorDashboard(request, companyid);
             return Ok(_result);
         }
+
+        [HttpPost]
+        public IActionResult VendorServiceHistory(VendorServiceHistoryModel.VendorServiceHistoryRQ request)
+        {
+            var _result = _admin.VendorServiceHistory(request);
+            return Ok(_result);
+        }
     }
 }
