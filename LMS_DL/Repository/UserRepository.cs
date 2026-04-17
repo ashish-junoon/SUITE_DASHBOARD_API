@@ -15,7 +15,7 @@ namespace LMS_DL.Repository
 {
     public class UserRepository
     {
-        DataSet Objds = null;
+        DataSet? Objds = null;
         DataTable Objtable = new DataTable();
 
         public LoginUserModel.LoginUserRS LoginUser(LoginUserModel.LoginUserRQ loginUserRQ, string dbconnection)
@@ -63,6 +63,7 @@ namespace LMS_DL.Repository
                             vendor_company_name = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["vendor_company_name"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["vendor_company_name"]),
                             ip_address = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["ip_address"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["ip_address"]),
                             is_active = Objtable.Rows[0]["is_active"] == DBNull.Value ? false : Convert.ToBoolean(Objtable.Rows[0]["is_active"]),
+                            role = string.IsNullOrEmpty(Convert.ToString(Objtable.Rows[0]["role"])) ? string.Empty : Convert.ToString(Objtable.Rows[0]["role"]),
                         };
                     }
                     else
@@ -99,7 +100,7 @@ namespace LMS_DL.Repository
             VendorRegisterRS vendorRS = new();
             try
             {
-                SqlParameter[] param = new SqlParameter[23];
+                SqlParameter[] param = new SqlParameter[25];
 
                 param[0] = new SqlParameter("vendor_full_name", SqlDbType.NVarChar, 100) { Value = vendorRQ.vendor_full_name ?? (object)DBNull.Value };
                 param[1] = new SqlParameter("vendor_email", SqlDbType.NVarChar, 100) { Value = vendorRQ.vendor_email ?? (object)DBNull.Value };
@@ -125,6 +126,7 @@ namespace LMS_DL.Repository
                 };
                 param[20] = new SqlParameter("vendor_type", SqlDbType.NVarChar, 50) { Value = vendorRQ.vendor_type ?? (object)DBNull.Value };
                 param[21] = new SqlParameter("billing_type", SqlDbType.NVarChar, 50) { Value = vendorRQ.billing_type ?? (object)DBNull.Value };
+                param[22] = new SqlParameter("role", SqlDbType.VarChar, 100) { Value = vendorRQ.role };
 
                 using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
                 {

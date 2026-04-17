@@ -380,8 +380,8 @@ namespace LMS_DL.Repository
                                 created_by = row["created_by"] as string ?? string.Empty,
                                 updated_date = row["updated_date"] != DBNull.Value ? Convert.ToDateTime(row["updated_date"]) : (DateTime?)null,
                                 updated_by = row["updated_by"] as string ?? string.Empty,
-                                is_active = row["is_active"] != DBNull.Value ? Convert.ToBoolean(row["is_active"]) : (bool?)null
-
+                                is_active = row["is_active"] != DBNull.Value ? Convert.ToBoolean(row["is_active"]) : (bool?)null,
+                                role = row["role"] as string ?? string.Empty,
                             };
                             data.Add(getVendorList);
                         }

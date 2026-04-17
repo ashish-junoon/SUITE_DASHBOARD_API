@@ -105,6 +105,8 @@ namespace LMS_DL.Model.Admin
             [JsonProperty("is_active")]
             public bool? is_active { get; set; }
 
+            [JsonPropertyName("role")]
+            public string? role { get; set; }
         }
     }
 }

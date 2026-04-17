@@ -73,6 +73,9 @@ namespace LMS_DL.Model.UserModel
             [JsonPropertyName("billing_type")]
             public string billing_type { get; set; } = string.Empty;
 
+            [JsonProperty("role")]
+            public string? role { get; set; }
+
         }
 
         public class VendorRegisterRS
