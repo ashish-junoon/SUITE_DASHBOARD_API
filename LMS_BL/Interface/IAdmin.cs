@@ -19,5 +19,8 @@ namespace LMS_BL.Interface
         VendorServiceNameModel.VendorServiceNameRS VendorServiceName(VendorServiceNameModel.VendorServiceNameRQ request);
         VendorDashboardModel.VendorDashboardRS VendorDashboard(VendorDashboardModel.VendorDashboardRQ request, string requiredcompanyid);
         VendorServiceHistoryModel.VendorServiceHistoryRS VendorServiceHistory(VendorServiceHistoryModel.VendorServiceHistoryRQ request);
+        ChangePasswordModel.ChangePasswordRS ChangePassword(ChangePasswordModel.ChangePasswordRQ request);
+        UploadVendorDocumentModel.UploadVendorDocumentRS UploadVendorDocument(UploadVendorDocumentModel.UploadVendorDocumentRQ request);
+        GetVendorDocumentModel.GetVendorDocumentRS GetVendorDocument(GetVendorDocumentModel.GetVendorDocumentRQ request);
     }
 }

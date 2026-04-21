@@ -705,5 +705,182 @@ namespace LMS_DL.Repository
 
             return serviceHistoryRS;
         }
+        public ChangePasswordModel.ChangePasswordRS ChangePassword(ChangePasswordModel.ChangePasswordRQ request, string dbconnection)
+        {
+            ChangePasswordModel.ChangePasswordRS changePasswordRS = new ChangePasswordModel.ChangePasswordRS();
+            SqlParameter[] param = new SqlParameter[3];
+            try
+            {
+                param[0] = new SqlParameter("OldPassword", SqlDbType.VarChar, 100) { Value = request.OldPassword };
+                param[1] = new SqlParameter("NewPassword", SqlDbType.VarChar, 100) { Value = request.NewPassword };
+                param[2] = new SqlParameter("ConfirmPassword", SqlDbType.VarChar, 100) { Value = request.ConfirmPassword };
+
+                using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+                {
+                    Obj_ds = new DataSet();
+                    try
+                    {
+                        Obj_ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "USP_ChangePassword", param);
+                        if (Obj_ds.Tables.Count > 0 && Obj_ds.Tables[0].Rows.Count > 0)
+                        {
+                            changePasswordRS.status = Obj_ds.Tables[0].Rows[0]["status"] != DBNull.Value && !string.IsNullOrEmpty(Convert.ToString(Obj_ds.Tables[0].Rows[0]["status"])) ? Convert.ToBoolean(Obj_ds.Tables[0].Rows[0]["status"]) : false;
+                            changePasswordRS.message = Obj_ds.Tables[0].Rows[0]["message"] != DBNull.Value ? Convert.ToString(Obj_ds.Tables[0].Rows[0]["message"]) ?? "" : string.Empty;
+                        }
+                        else
+                        {
+                            changePasswordRS.status = false;
+                            changePasswordRS.message = "No record found.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return new ChangePasswordModel.ChangePasswordRS
+                        {
+                            message = ex.Message,
+                            status = false
+                        };
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new ChangePasswordModel.ChangePasswordRS
+                {
+                    message = ex.Message,
+                    status = false
+                };
+            }
+
+            return changePasswordRS;
+        }
+        public UploadVendorDocumentModel.UploadVendorDocumentRS UploadVendorDocument(UploadVendorDocumentModel.UploadVendorDocumentRQ request, string file_name, string dbconnection)
+        {
+            UploadVendorDocumentModel.UploadVendorDocumentRS vendorServiceHistory = new UploadVendorDocumentModel.UploadVendorDocumentRS();
+            SqlParameter[] param = new SqlParameter[5];
+            try
+            {
+                param[0] = new SqlParameter("document_name", SqlDbType.VarChar, 100) { Value = request.document_name };
+                param[1] = new SqlParameter("file_name", SqlDbType.VarChar, 100) { Value = file_name };
+                param[2] = new SqlParameter("vendor_code", SqlDbType.VarChar, 100) { Value = request.vendor_code };
+                param[3] = new SqlParameter("created_by", SqlDbType.VarChar, 100) { Value = request.created_by };
+                param[4] = new SqlParameter("action", SqlDbType.VarChar, 100) { Value = "Upload" };
+
+                using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+                {
+                    Obj_ds = new DataSet();
+                    try
+                    {
+                        Obj_ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "Usp_UploadVendorDocument", param);
+                        if (Obj_ds != null)
+                        {
+                            if (Obj_ds.Tables.Count > 0 && Obj_ds.Tables[0].Rows.Count > 0)
+                            {
+                                vendorServiceHistory.status = Convert.ToBoolean(Obj_ds.Tables[0].Rows[0][0]);
+                                vendorServiceHistory.message = Obj_ds.Tables[0].Rows[0][1].ToString() ?? string.Empty;
+                                vendorServiceHistory.file_name = Obj_ds.Tables[0].Rows[0][2].ToString() ?? string.Empty;
+                            }
+                            else
+                            {
+                                vendorServiceHistory.status = false;
+                                vendorServiceHistory.message = "Failed to upload document.";
+                            }
+                        }
+                        else
+                        {
+                            vendorServiceHistory.status = false;
+                            vendorServiceHistory.message = "Failed to upload document.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return new UploadVendorDocumentModel.UploadVendorDocumentRS
+                        {
+                            message = ex.Message,
+                            status = false
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new UploadVendorDocumentModel.UploadVendorDocumentRS
+                {
+                    message = ex.Message,
+                    status = false
+                };
+            }
+
+            return vendorServiceHistory;
+        }
+        public GetVendorDocumentModel.GetVendorDocumentRS GetVendorDocument(GetVendorDocumentModel.GetVendorDocumentRQ request, string dbconnection)
+        {
+            GetVendorDocumentModel.GetVendorDocumentRS vendorDocumentRS = new GetVendorDocumentModel.GetVendorDocumentRS();
+            SqlParameter[] param = new SqlParameter[5];
+            try
+            {
+                param[1] = new SqlParameter("vendor_code", SqlDbType.VarChar, 100) { Value = request.vendor_code };
+                param[2] = new SqlParameter("action", SqlDbType.VarChar, 100) { Value = "GET" };
+
+                using (SqlConnection con = GetDBConnection.getConnection(dbconnection))
+                {
+                    Obj_ds = new DataSet();
+                    try
+                    {
+                        Obj_ds = SqlHelper.ExecuteDataset(con, CommandType.StoredProcedure, "Usp_UploadVendorDocument", param);
+                        if (Obj_ds != null)
+                        {
+                            if (Obj_ds.Tables.Count > 0 && Obj_ds.Tables[0].Rows.Count > 0)
+                            {
+                                vendorDocumentRS.status = Convert.ToBoolean(Obj_ds.Tables[0].Rows[0][0]);
+                                vendorDocumentRS.message = Obj_ds.Tables[0].Rows[0][1].ToString() ?? string.Empty;
+                                vendorDocumentRS.documents = new List<GetVendorDocumentModel.VendorDocument>();
+
+                                foreach (DataRow row in Obj_ds.Tables[0].Rows)
+                                {
+                                    vendorDocumentRS.documents.Add(new GetVendorDocumentModel.VendorDocument
+                                    {
+                                        Id = row["Id"] != DBNull.Value ? Convert.ToInt32(row["Id"]) : (int?)null,
+                                        document_name = row["document_name"] as string ?? string.Empty,
+                                        file_name = row["file_name"] as string ?? string.Empty,
+                                        vendor_code = row["vendor_code"] as string ?? string.Empty,
+                                        created_by = row["created_by"] as string ?? string.Empty,
+                                        created_date = Convert.ToDateTime(row["created_date"]).ToString("dd-MM-yyyy"),
+                                    });
+                                }
+                            }
+                            else
+                            {
+                                vendorDocumentRS.status = false;
+                                vendorDocumentRS.message = "No documents found.";
+                            }
+                        }
+                        else
+                        {
+                            vendorDocumentRS.status = false;
+                            vendorDocumentRS.message = "No documents found.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        return new GetVendorDocumentModel.GetVendorDocumentRS
+                        {
+                            message = ex.Message,
+                            status = false
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return new GetVendorDocumentModel.GetVendorDocumentRS
+                {
+                    message = ex.Message,
+                    status = false
+                };
+            }
+
+            return vendorDocumentRS;
+        }
     }
 }

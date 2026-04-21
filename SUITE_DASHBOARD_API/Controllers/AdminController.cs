@@ -88,5 +88,26 @@ namespace API_SERVICES.Controllers
             var _result = _admin.VendorServiceHistory(request);
             return Ok(_result);
         }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordModel.ChangePasswordRQ request)
+        {
+            var _result = _admin.ChangePassword(request);
+            return Ok(_result);
+        }
+
+        [HttpPost]
+        public IActionResult UploadVendorDocument(UploadVendorDocumentModel.UploadVendorDocumentRQ request)
+        {
+            var _result = _admin.UploadVendorDocument(request);
+            return Ok(_result);
+        }
+
+        [HttpPost]
+        public IActionResult GetVendorDocument(GetVendorDocumentModel.GetVendorDocumentRQ request)
+        {
+            var _result = _admin.GetVendorDocument(request);
+            return Ok(_result);
+        }
     }
 }
